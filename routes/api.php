@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('wrokers', WorkerController::class);
+Route::apiresource('workers', WorkerController::class);
 
 Route::get('/hello', function () {
     return "Hello World!";

@@ -12,15 +12,8 @@ class WorkerController extends Controller
      */
     public function index()
     {
-        return "index";
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return "create";
+        $worker  = Worker::all();
+        return response($worker);
     }
 
     /**
@@ -28,7 +21,14 @@ class WorkerController extends Controller
      */
     public function store(Request $request)
     {
-        return "store";
+        $worker = new Worker;
+
+        $worker->username = $request->username;
+        $worker->password = $request->password;
+
+        $worker->save();
+        // return "store";
+        return response($worker);
     }
 
     /**
@@ -36,23 +36,26 @@ class WorkerController extends Controller
      */
     public function show(Worker $worker)
     {
-        return "show";
+        return response($worker);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Worker $worker)
-    {
-        return "edit";
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Worker $worker)
     {
-        return "update";
+
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        $worker->username = $request->username;
+        $worker->password = $request->password;
+        $worker->save();
+
+        return $worker;
     }
 
     /**
@@ -60,6 +63,11 @@ class WorkerController extends Controller
      */
     public function destroy(Worker $worker)
     {
-        return "destroy";
+
+        $worker->delete();
+
+        return response()->json([
+            'message'=>"Worker Deleted successfully."
+        ],200);
     }
 }
